@@ -1,21 +1,16 @@
 const auth = firebase.auth();
-const API = require('call-of-duty-api')({ platform: "battle" });
-const firestore = require('firebase-firestore');
-
-var db = firebase.firestore();
+const db = firebase.firestore();
 
 const whenSignedIn = document.getElementById('whenSignedIn');
 const whenSignedOut = document.getElementById('whenSignedOut');
 
 const displayName = document.getElementById('displayName');
-
-const signInBtn = document.getElementById('signInBtn');
-const signOutBtn = document.getElementById('signOutBtn');
+const codIDForm = document.getElementById('cod-id-form');
+const adminSection = document.getElementById('admin');
 
 const provider = new firebase.auth.GoogleAuthProvider();
+codIDForm.hidden = true;
 
-signInBtn.onclick = () => auth.signInWithPopup(provider);
-signOutBtn.onclick = () => auth.signOut();
 
 auth.onAuthStateChanged(user => {
     if (user) {
@@ -23,42 +18,47 @@ auth.onAuthStateChanged(user => {
         whenSignedIn.hidden = false;
         whenSignedOut.hidden = true;
         displayName.textContent = user.displayName+"";
+
+        var docRef = db.collection("admins").doc(user.uid).get().then(admin => {
+            if (admin.exists) {
+                adminSection.innerHTML = '<a  class="dropdown-item" href="#"><i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>Admin</a>';
+            }
+        });
+
+        var docRef = db.collection("users").doc(user.uid);
+
+        docRef.get().then(function(doc) {
+            if (doc.exists && doc.data().gameIDAdded === true) {
+                codIDForm.hidden = true;
+            
+            } else {
+                codIDForm.hidden = false;
+            }
+
+        });
         
     } else {
         // not signed in
         whenSignedIn.hidden = true;
         whenSignedOut.hidden = false;
+        codIDForm.hidden = true;
     }
 });
 
+function signIn() {
+    auth.signInWithPopup(provider);
+}
+
+function signOut() {
+    auth.signOut();
+}
+
 function updateAccount() {
     var accountName = document.getElementById('calldutyid');
-    var user = firebase.auth().currentUser;
 
-    API.login("brett_saunders@btinternet.com", "").then(data2 => {
-        //I want Warzone Data
-        API.MWcombatwz(accountName).then(data => {
-            data.matches.forEach((value) => {
-                db.collection("users").doc(user.uid).collection("games").doc(value.matchID).set({
-                    draw: value.draw,
-                    duration: value.duration,
-                    map: value.map,
-                    mode: value.mode,
-                    playerCount: value.playerCount,
-                    teamCount: value.teamCount,
-                    rank: value.player.rank,
-                    kills: value.playerStats.kills,
-                    score: value.playerStats.score,
-                    deaths: value.playerStats.deaths,
-                    damageDone: value.playerStats.damageDone,
-                    damageTaken: value.playerStats.damageTaken,
-                    assists: value.playerStats.assists
-                });
-            });
-        }).catch(err => {
-            console.log(err);
-        });
-    }).catch(err => {
-        console.log(err);
-    });
+    db.collection("users").doc(auth.currentUser.uid).set({
+        gameIDAdded: true,
+        gameID: accountName.value
+    },{merge: true});
+    
 }

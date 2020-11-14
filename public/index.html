@@ -18,6 +18,12 @@
       to avoid connecting the SDK to running emulators.
     -->
     <script defer src="/__/firebase/init.js?useEmulator=true"></script>
+    <script src="app.js" defer></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
   </head>
 
   <body>
@@ -40,53 +46,48 @@
                   <a class="nav-link waves-effect waves-light" href="#">Stats</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link waves-effect waves-light" href="#">About</a>
+                <a class="nav-link waves-effect waves-light" href="#">About 2</a>
             </li>
           </ul>
 
           
           <section id="whenSignedOut">
-            <button id="signInBtn" type="button" class="btn btn-primary">Sign In</button>
+            <a class="btn btn-primary" herf="" onclick="signIn()">Sign In</a>
           </section>
 
-          <section id="whenSignedIn"></section>
-            <div class="md-form my-0">
-              <div class="topbar-divider d-none d-sm-block"></div>
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span id = "displayName">Sign In First</span>
-                <img class="img-profile rounded-circle"
-                    src=""+user.photoURL>
+          <div id="whenSignedIn" class="md-form my-0">
+            <div class="topbar-divider d-none d-sm-block"></div>
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span id = "displayName">Sign In First</span>
+              <img class="img-profile rounded-circle"
+                  src=""+user.photoURL>
+            </a>
+
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="userDropdown">
+              <a class="dropdown-item" href="#">
+                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Profile
               </a>
-
-              <!-- Dropdown - User Information -->
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
-              aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a id="signOutBtn" class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Logout
-                </a>
-              </div>
+              <a class="dropdown-item" href="#">
+                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Settings
+              </a>
+              <div id="admin"></div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onclick="signOut()">
+                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  Logout
+              </a>
             </div>
-          </section>
+          </div>
       </div>
     </nav>
 
 
-    <form class="form-horizontal">
+    <form class="form-horizontal" id="cod-id-form">
       <fieldset>
       
       <!-- Form Name -->
