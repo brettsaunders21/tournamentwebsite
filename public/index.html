@@ -52,7 +52,7 @@
 
           
           <section id="whenSignedOut">
-            <a class="btn btn-primary" herf="" onclick="signIn()">Sign In</a>
+            <a class="btn btn-primary" href="" onclick="signIn()">Sign In</a>
           </section>
 
           <div id="whenSignedIn" class="md-form my-0">
@@ -61,24 +61,24 @@
               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <span id = "displayName">Sign In First</span>
               <img class="img-profile rounded-circle"
-                  src=""+user.photoURL>
+                  src=""+user.photoURL alt="Pic">
             </a>
 
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
             aria-labelledby="userDropdown">
               <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                  <em class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></em>
                   Profile
               </a>
               <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                  <em class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></em>
                   Settings
               </a>
               <div id="admin"></div>
               <div class="dropdown-divider"></div>
               <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onclick="signOut()">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                  <em class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></em>
                   Logout
               </a>
             </div>
