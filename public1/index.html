@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to the Warzone</title>
+  </head>
+
+  <body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#">Warzone Tournament</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+              <li class="nav-item active">
+                 <a class="nav-link waves-effect waves-light" href="#">Home <span class="sr-only">(current)</span></a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link waves-effect waves-light" href="#">Future Tournament</a>
+              </li>
+              <li class="nav-item">
+                  <a class="nav-link waves-effect waves-light" href="#">Stats</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link waves-effect waves-light" href="#">About 2</a>
+            </li>
+          </ul>
+
+          
+          <section id="whenSignedOut">
+            <a class="btn btn-primary" href="" onclick="signIn()">Sign In</a>
+          </section>
+
+          <div id="whenSignedIn" class="md-form my-0">
+            <div class="topbar-divider d-none d-sm-block"></div>
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+              data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <span id = "displayName">Sign In First</span>
+              <img class="img-profile rounded-circle"
+                  src=""+user.photoURL alt="Pic">
+            
+
+            <!-- Dropdown - User Information -->
+            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+            aria-labelledby="userDropdown">
+              <a class="dropdown-item" href="#">
+                  <em class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></em>
+                  Profile
+              </a>
+              <a class="dropdown-item" href="#">
+                  <em class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></em>
+                  Settings
+              </a>
+              <div id="admin"></div>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal" onclick="signOut()">
+                  <em class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></em>
+                  Logout
+              </a>
+            </div>
+          </div>
+      </div>
+    </nav>
+
+
+    <form class="form-horizontal" id="cod-id-form">
+      <fieldset>
+      
+      <!-- Form Name -->
+      <legend>Call of Duty Details</legend>
+      
+      <!-- Prepended text-->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="prependedtext"></label>
+        <div class="col-md-5">
+          <div class="input-group">
+            <span class="input-group-addon">Call of Duty ID</span>
+            <input id="calldutyid" name="callofdutyid" class="form-control" placeholder="person123" type="text" required="">
+          </div>
+          
+        </div>
+      </div>
+      
+      <!-- Button -->
+      <div class="form-group">
+        <label class="col-md-4 control-label" for="submit"></label>
+        <div class="col-md-4">
+          <button id="submit" name="submit" class="btn btn-primary" onclick="updateAccount()">Update Account</button>
+        </div>
+      </div>
+      
+      </fieldset>
+    </form>
+
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+
+  </body>
+</html>
