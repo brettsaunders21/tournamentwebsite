@@ -4,8 +4,9 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/analytics';
-Complimport "firebase/database";
+import "firebase/database";
 import './bootstrap.min.css';
+import './custom.css';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
@@ -90,25 +91,20 @@ function ScoreboardTable(props) {
 
   var startDate = new Date(startTime);
   var endDate = new Date(endTime);
+  var size = 60 + (52 * Object.keys(positionsTable).length);
+  var style = "height: "+size+"px;";
 
   return (
     <>
-      <h3>{ name }  Round:{roundNumber}</h3>
-      <h4>Begins at {startDate.toUTCString().slice(-11,-4)} and ends at {endDate.toUTCString().slice(-11,-4)}</h4>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Team Name</th>
-            <th>Win Score</th>
-            <th>Kills Score</th>
-            <th>Total Score</th>
-          </tr>
-        </thead>
-        <tbody>
-          {positionsTable && Object.keys(positionsTable).map(team => <ScoreboardRow positionData={positionsTable[team]} />)}
-        </tbody>
-      </Table>
+      <div class="leaderboard">
+        <h1>
+          <svg class="ico-cup"></svg>
+          { name } - Round {roundNumber}
+        </h1>
+        <ol>
+          {positionsTable && Object.keys(positionsTable).sort((a, b) => (positionsTable[a][5] < positionsTable[b][5]) ? 1 : -1).map(team => <ScoreboardRow positionData={positionsTable[team]} />)}
+        </ol>
+      </div>
     </>
   )
 }
@@ -118,13 +114,10 @@ function ScoreboardRow(props) {
 
   return (
     <>
-    <tr>
-      <td>{positionData[1]}</td>
-      <td>{positionData[0]}</td>
-      <td>{positionData[3]}</td>
-      <td>{positionData[4]}</td>
-      <td>{positionData[5]}</td>
-    </tr>
+      <li>
+        <mark>{positionData[0]}</mark>
+        <small>{positionData[5]}</small>
+      </li>
   </>
   )
 }
