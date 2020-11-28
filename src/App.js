@@ -10,7 +10,7 @@ import './custom.css';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { Button, Navbar, Nav, DropdownButton, Dropdown, Table } from 'react-bootstrap';
+import { Button, Navbar, Nav, DropdownButton, Dropdown, Table, Container } from 'react-bootstrap';
 
 var firebaseConfig = {
   apiKey: "AIzaSyBs9ak1sWfPlFiBx6-VnJzi2Kn3s96ffF0",
@@ -76,7 +76,7 @@ function SignedIn() {
 
 function Tournaments() {
   const tournamentsRef = firestore.collection('tournaments');
-  const query = tournamentsRef.where('startTime', '<=', Math.floor(Date.now() / 1000)).orderBy('startTime');
+  const query = tournamentsRef.where('startTime', '<=', Math.floor(Date.now() / 1000)).orderBy('startTime', "desc");
 
   const [tournaments] = useCollectionData(query);
 
@@ -87,24 +87,26 @@ function Tournaments() {
 
 function ScoreboardTable(props) {
   const { name, roundNumber, startTime, endTime, positionsTable } = props.tournamentData;
-  console.log(positionsTable);
-
-  var startDate = new Date(startTime);
-  var endDate = new Date(endTime);
-  var size = 60 + (52 * Object.keys(positionsTable).length);
-  var style = "height: "+size+"px;";
+  var positionKeys = Object.keys(positionsTable).sort((a, b) => (positionsTable[a][5] < positionsTable[b][5]) ? 1 : -1);
 
   return (
     <>
-      <div class="leaderboard">
-        <h1>
-          <svg class="ico-cup"></svg>
-          { name } - Round {roundNumber}
-        </h1>
-        <ol>
-          {positionsTable && Object.keys(positionsTable).sort((a, b) => (positionsTable[a][5] < positionsTable[b][5]) ? 1 : -1).map(team => <ScoreboardRow positionData={positionsTable[team]} />)}
-        </ol>
-      </div>
+      <Container fluid="md">
+        <Table hover responsive className="scores">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">{ name } - Round {roundNumber}</th>
+              <th scope="col">Win Score</th>
+              <th scope="col">Kills Score</th>
+              <th scope="col">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {positionsTable && positionKeys.map(team => <ScoreboardRow positionData={positionsTable[team]} />)}
+          </tbody>
+        </Table>
+      </Container>
     </>
   )
 }
@@ -114,10 +116,13 @@ function ScoreboardRow(props) {
 
   return (
     <>
-      <li>
-        <mark>{positionData[0]}</mark>
-        <small>{positionData[5]}</small>
-      </li>
+      <tr>
+        <td scope="row">{positionData[1]}</td>
+        <td>{positionData[0]}</td>
+        <td>{positionData[3]}</td>
+        <td>{positionData[4]}</td>
+        <td>{positionData[5]}</td>
+      </tr>
   </>
   )
 }
