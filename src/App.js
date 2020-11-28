@@ -52,8 +52,8 @@ function NavBar() {
 
 function SignIn() {
   const signInWithGoogle = () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider);
+    // const provider = new firebase.auth.GoogleAuthProvider();
+    // auth.signInWithPopup(provider);
   }
 
   return (
@@ -87,7 +87,18 @@ function Tournaments() {
 
 function ScoreboardTable(props) {
   const { name, roundNumber, startTime, endTime, positionsTable } = props.tournamentData;
-  var positionKeys = Object.keys(positionsTable).sort((a, b) => (positionsTable[a][5] < positionsTable[b][5]) ? 1 : -1);
+  //var positionKeys = Object.keys(positionsTable).sort((a, b) => (positionsTable[a][1] < positionsTable[b][1]) ? -1 : 1);
+  var keysSorted = Object.keys(positionsTable).sort(function(a,b){
+    var aSplit = positionsTable[a].split(':');
+    var bSplit = positionsTable[b].split(':');
+    return bSplit[5]- aSplit[5];
+  })
+
+  var boardData = [];
+  keysSorted.forEach((key) => {
+    boardData.push(positionsTable[key]);
+  });
+
 
   return (
     <>
@@ -103,7 +114,7 @@ function ScoreboardTable(props) {
             </tr>
           </thead>
           <tbody>
-            {positionsTable && positionKeys.map(team => <ScoreboardRow positionData={positionsTable[team]} />)}
+            {boardData && boardData.map(team => <ScoreboardRow positionData={team} />)}
           </tbody>
         </Table>
       </Container>
@@ -114,10 +125,25 @@ function ScoreboardTable(props) {
 function ScoreboardRow(props) {
   var positionData = props.positionData.split(':');
 
+  var posDiff =  positionData[2] - positionData[1];
+  var srcImg = "https://www.dropbox.com/s/48bpk4g7ips4z43/same.png?raw=1";
+
+  if (posDiff > 2) {
+    srcImg = "https://www.dropbox.com/s/567wbjcxx4juzth/Increase2.png?raw=1";
+  } else if (posDiff > 0) {
+    srcImg = "https://www.dropbox.com/s/gn0c2tgkjtpytfn/Increase1.png?raw=1";
+  } else if (posDiff == 0) {
+    srcImg = "https://www.dropbox.com/s/48bpk4g7ips4z43/same.png?raw=1";
+  } else if (posDiff < -2) {
+    srcImg = "https://www.dropbox.com/s/s91k4vibsn647y0/decrease2.png?raw=1";
+  } else {
+    srcImg = "https://www.dropbox.com/s/d1ybbcahx73o5k5/decrease1.png?raw=1";
+  }
+
   return (
     <>
       <tr>
-        <td scope="row">{positionData[1]}</td>
+        <td scope="row"><img src={srcImg} width="24" height="24" alt=""></img>   {positionData[1]}</td>
         <td>{positionData[0]}</td>
         <td>{positionData[3]}</td>
         <td>{positionData[4]}</td>
